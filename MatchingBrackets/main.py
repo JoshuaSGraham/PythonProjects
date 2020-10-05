@@ -1,3 +1,4 @@
+from ast import parse
 from stack import Stack
 # Checks two incoming brackets to see if they are the same type
 def matching(bracket1, bracket2):
@@ -42,3 +43,17 @@ print(are_brackets_balanced("((({})))"))
 
 print("String : {{[[]]}) is this balanced?")
 print(are_brackets_balanced("{{[[]]})"))
+
+
+# Takes user input and checks if user input has balanced brackets
+import argparse
+parser = argparse.ArgumentParser(description="Check if string entered is balanced")
+parser.add_argument("InputString", metavar="inputString", type=str, help="String to be checked if balanced")
+args = parser.parse_args()
+
+inputString = args.InputString
+print("Are these brackets balanced?  "+inputString)
+if(are_brackets_balanced(inputString)):
+    print("The brackets are balanced")
+else :
+    print("The brackets are not balanced")
