@@ -16,7 +16,11 @@ A script designed to quickly automate the process of trying anonymous login and 
 ## Usage:
 ### Linux
 ```
-coming soon
+python3 FTPCompromiser.py -t <Ip address> -w <wordlist>
+
+Optional:
+
+-x sets extentions to look for in files on the ftp server once access has been gained
 ```
 
 ## Matching brackets
