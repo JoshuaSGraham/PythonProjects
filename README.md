@@ -5,9 +5,11 @@ A collection of smaller python projects and scripts that I have written.
 HashCracker is a small script for offline cracking of passwords.
 
 ## Usage:
-### Linux
 ```
-coming soon
+python3 Cracker.py -h/--hashlist <file containing hash/es to be cracked> -w/--wordlist <file>
+
+Optional:
+-c/--crack <SHA1, SHA256, SHA512> or no -c option for md5sum
 ```
 
 ## FTPCompromiser
