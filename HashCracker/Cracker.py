@@ -1,54 +1,71 @@
 import crypt
 import hashlib
 import argparse
+# Displays to the user a success message or failiure message depedning on if the password is found
 def printOutput(passwordFound, passwordCracked, username):
     if(passwordFound):
         print("[+] Password Found: "+username + ":"+passwordCracked)
     else:
         print("[ - ] No password found for "+username)
-
+# Cracks a md5 hash
 def MD5crack(encryptedPassword, wordlist, username):
+    # Gets the hash salt from 2 position of the password passed through
     salt = encryptedPassword[0:2]
+    # Reads in all of the passwords from the file
     passwordFile = open(wordlist, 'r')
     for password in passwordFile.readlines():
         password = password.strip('\n')
+        # Hashes all of the passwords with their salt and compares to the password hash that we are trying to find
         encryptedWord = crypt.crypt(password,salt)
+        # If they match we have found the password we are trying to find
         if (encryptedWord == encryptedPassword):
             printOutput(True, encryptedWord, username)
             return
     printOutput(False, encryptedPassword, username)
-
+# Cracks a sha512 hash
 def SHA512crack(encryptedPassword, wordlist, username):
+    # Gets the hash salt from the 2nd position of the password passed through
     salt = encryptedPassword[0:2]
+    # Reads in all of the passwords from the file
     passwordFile = open(wordlist,'r')
     for password in passwordFile.readlines():
         password = password.strip('\n')
+        # Hashes all of the passwords with their salt and compares to the password hash that we are trying to find
         encryptedWord = hashlib.sha512(password, salt)
         encryptedWord.hexdigest()
+        # If they match we have found the password we are trying to find
         if (encryptedWord == encryptedPassword):
             printOutput(True, encryptedWord, username)
             return
     printOutput(False, encryptedPassword, username)
-
+# Cracks a sha1 hash
 def SHA1crack(encryptedPassword, wordlist, username):
+    # Gets the hash salt from the 2nd position of the password passed through
     salt = encryptedPassword[0:2]
+    # Reads in all of the passwords from the file
     passwordFile = open(wordlist,'r')
     for password in passwordFile.readlines():
         password = password.strip('\n')
+        # Hashes all of the passwords with their salt and compares to the password hash that we are trying to find
         encryptedWord = hashlib.sha1(password, salt)
         encryptedWord.hexdigest()
+        # If they match we have found the password we are trying to find
         if (encryptedWord == encryptedPassword):
             printOutput(True, encryptedWord, username)
             return
     printOutput(False, encryptedPassword, username)
-    
+# Cracks a sha256 hash
 def SHA256crack(encryptedPassword, wordlist, username):
+    # Gets the hash salt from the 2nd position of the password passed through
     salt = encryptedPassword[0:2]
+    # Reads in all of the passwords from the file
     passwordFile = open(wordlist,'r')
     for password in passwordFile.readlines():
         password = password.strip('\n')
+        # Hashes all of the passwords with their salt and compares to the password hash that we are trying to find
         encryptedWord = hashlib.sha256(password, salt)
         encryptedWord.hexdigest()
+        # If they match we have found the password we are trying to find
         if (encryptedWord == encryptedPassword):
             printOutput(True, encryptedWord, username)
             return
@@ -56,7 +73,7 @@ def SHA256crack(encryptedPassword, wordlist, username):
 
 
 def readFile(hashFile, wordlist, algorithm):
-
+    # Reads in username, password hashes and their salts to be cracked
     passFile = open(hashFile, 'r')
     for line in passFile.readlines():
             if ":" in line:

